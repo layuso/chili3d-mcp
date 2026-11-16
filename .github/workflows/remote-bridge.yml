@@ -1,0 +1,21 @@
+name: Test Chili3D Remote MCP
+
+on:
+  push:
+    branches: [feature/remote-cad-bridge]
+  pull_request:
+    branches: [main]
+
+jobs:
+  remote-bridge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: node --check src/remote.mjs
+      - run: node --test test/remote.test.mjs
+      - run: npm test
